@@ -71,7 +71,17 @@ const RegistrationForm = () => {
             onChange={handleChange}
           />
         </div>
-
+       <div className="form-group">
+          <label htmlFor="dob">Date of Birth:</label>
+          <input
+            type="date"
+            id="dob"
+            name="dob"
+            value={formData.dob || ''}
+            onChange={handleChange}
+            required
+          />
+        </div>
         <div className="form-group">
           <label htmlFor="ticketType">Ticket Type:</label>
           <select
