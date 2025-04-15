@@ -105,8 +105,12 @@ const RegistrationForm = () => {
             onChange={handleChange}
             placeholder="Enter any dietary restrictions..."
           />
+          </div>
+          <div className='form-group'>
+            <labe htmlFor='document'>Upload Document:</labe>
+            <input type='file' id='document' name='document' accept='.pdf, .doc, .docx' onChange={handleChange} required/>
         </div>
-
+        
         <button type="submit">Register</button>
       </form>
     </div>
