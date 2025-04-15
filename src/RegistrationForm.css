@@ -69,3 +69,9 @@
     outline: none;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
   }
+  /* RegistrationForm.css */
+.success-msg {
+  color: green;
+  margin-top: 10px;
+  font-weight: bold;
+}

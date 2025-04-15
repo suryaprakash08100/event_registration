@@ -7,29 +7,54 @@ const RegistrationForm = () => {
     fullName: '',
     email: '',
     phone: '',
+    dob: '',
     ticketType: 'general',
-    dietary: ''
+    dietary: '',
+    document: null
   });
 
+  const [dietaryLimit, setDietaryLimit] = useState(200);
+  const [submitted, setSubmitted] = useState(false);
+
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    const { name, value, files } = e.target;
+
+    if (name === 'document') {
+      setFormData(prev => ({
+        ...prev,
+        document: files[0]
+      }));
+    } else if (name === 'dietary') {
+      if (value.length <= dietaryLimit) {
+        setFormData(prev => ({
+          ...prev,
+          [name]: value
+        }));
+      }
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
-    // Add your form submission logic here
     alert('Registration submitted successfully!');
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 3000);
+
+    // Reset
     setFormData({
       fullName: '',
       email: '',
       phone: '',
+      dob: '',
       ticketType: 'general',
-      dietary: ''
+      dietary: '',
+      document: null
     });
   };
 
@@ -71,17 +96,19 @@ const RegistrationForm = () => {
             onChange={handleChange}
           />
         </div>
-       <div className="form-group">
+
+        <div className="form-group">
           <label htmlFor="dob">Date of Birth:</label>
           <input
             type="date"
             id="dob"
             name="dob"
-            value={formData.dob || ''}
+            value={formData.dob}
             onChange={handleChange}
             required
           />
         </div>
+
         <div className="form-group">
           <label htmlFor="ticketType">Ticket Type:</label>
           <select
@@ -105,13 +132,27 @@ const RegistrationForm = () => {
             onChange={handleChange}
             placeholder="Enter any dietary restrictions..."
           />
-          </div>
-          <div className='form-group'>
-            <labe htmlFor='document'>Upload Document:</labe>
-            <input type='file' id='document' name='document' accept='.pdf, .doc, .docx' onChange={handleChange} required/>
+          <small>{formData.dietary.length}/{dietaryLimit} characters</small>
         </div>
-        
+
+        <div className='form-group'>
+          <label htmlFor='document'>Upload Document:</label>
+          <input
+            type='file'
+            id='document'
+            name='document'
+            accept='.pdf, .doc, .docx'
+            onChange={handleChange}
+            required
+          />
+          {formData.document && (
+            <small>Selected File: {formData.document.name}</small>
+          )}
+        </div>
+
         <button type="submit">Register</button>
+
+        {submitted && <p className="success-msg">✅ Successfully registered!</p>}
       </form>
     </div>
   );
